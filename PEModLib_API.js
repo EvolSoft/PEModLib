@@ -2,7 +2,7 @@
  * PEModLib (v0.1) by EvolSoft
  * Developer: EvolSoft
  * Website: http://www.evolsoft.tk
- * Date: 14/02/2015 06:51 PM (UTC)
+ * Date: 15/02/2015 01:29 PM (UTC)
  * Copyright & License: (C) 2015 EvolSoft
  * Licensed under MIT (https://github.com/EvolSoft/PEModLib/blob/master/LICENSE)
  */
@@ -24,8 +24,6 @@ var Widget = android.widget;
 
 var cmds_cmds = [];
 var cmds_funct = [];
-
-var msg = "Unknown Command.";
 
 var PEModLib = {
 		getVersion:function(){
@@ -154,6 +152,7 @@ PEModLib.Commands = {
 
 //Register API
 function selectLevelHook(){
+	var msg = "§7Unknown Command.";
 	var scripts = net.zhuoweizhang.mcpelauncher.ScriptManager.scripts;
 	var javascript = org.mozilla.javascript.ScriptableObject;
 	for(var i = 0; i < scripts.size(); i++) {
