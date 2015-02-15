@@ -2,7 +2,7 @@
  * PEModLib (v0.1) by EvolSoft
  * Developer: EvolSoft
  * Website: http://www.evolsoft.tk
- * Date: 15/02/2015 01:29 PM (UTC)
+ * Date: 15/02/2015 01:33 PM (UTC)
  * Copyright & License: (C) 2015 EvolSoft
  * Licensed under MIT (https://github.com/EvolSoft/PEModLib/blob/master/LICENSE)
  */
@@ -44,8 +44,9 @@ PEModLib.AndroidAPI = {
 				var activity = PEModLib.MinecraftPE.getCurrentActivity();
 			    var i = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			    activity.startActivity(i);
+			    return true;
         	}catch(error){
-        		return false;
+        		return error;
         	}  
 		},
 		initializeGUI:function(){
@@ -64,8 +65,9 @@ PEModLib.AndroidAPI = {
         		var GUI = new Widget.PopupWindow(layout, Widget.RelativeLayout.LayoutParams.WRAP_CONTENT, Widget.RelativeLayout.LayoutParams.WRAP_CONTENT);
         		GUI.setBackgroundDrawable(new Graphics.drawable.ColorDrawable(Graphics.Color.TRANSPARENT));
         		GUI.showAtLocation(activity.getWindow().getDecorView(), View.Gravity.RIGHT | View.Gravity.TOP, 0, 0);
+        		return true;
         	}catch(error){
-        		return false;
+        		return error;
         	}      	
         }
 };
@@ -110,7 +112,7 @@ PEModLib.FileAPI = {
 			   content.close();
     		   return true;
     	   }catch(error){
-		       return false;
+		       return error;
 		   }
        }
 };
@@ -143,16 +145,25 @@ PEModLib.Commands = {
 			return command.split(" ");
 		},
 		getUnknownCommandMessage:function(){
-			return msg;
+			try{
+				return msg;
+			}catch(error){
+				return false;
+			}
 		},
 		setUnknownCommandMessage:function(message){
-			msg = message;
+			try{
+				msg = message;
+				return true;
+			}catch(error){
+				return error;
+			}
 		}
 };
 
 //Register API
 function selectLevelHook(){
-	var msg = "§7Unknown Command.";
+	var msg = "§7Unknown Command."; //Initialize default Unknown Command message
 	var scripts = net.zhuoweizhang.mcpelauncher.ScriptManager.scripts;
 	var javascript = org.mozilla.javascript.ScriptableObject;
 	for(var i = 0; i < scripts.size(); i++) {
@@ -162,7 +173,6 @@ function selectLevelHook(){
 		javascript.putProperty(scope, "PEModLib", PEModLib);
 	}
 	call("onLoad");
-	PEModLib.Commands.addCommand("Hl", "ok");
 }
 
 function call(funct){
@@ -189,10 +199,6 @@ function call(funct, args){
 			obj.call(scope, args);
 		}
 	}
-}
-
-function ok(){
-	clientMessage("HEllo");
 }
 
 /* Events */
