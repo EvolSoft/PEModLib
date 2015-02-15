@@ -2,7 +2,7 @@
  * PEModLib (v0.1) by EvolSoft
  * Developer: EvolSoft
  * Website: http://www.evolsoft.tk
- * Date: 15/02/2015 01:33 PM (UTC)
+ * Date: 15/02/2015 03:07 PM (UTC)
  * Copyright & License: (C) 2015 EvolSoft
  * Licensed under MIT (https://github.com/EvolSoft/PEModLib/blob/master/LICENSE)
  */
@@ -24,6 +24,8 @@ var Widget = android.widget;
 
 var cmds_cmds = [];
 var cmds_funct = [];
+
+var msg = "Unknown Command."; //Initialize default Unknown Command message
 
 var PEModLib = {
 		getVersion:function(){
@@ -131,7 +133,7 @@ PEModLib.MinecraftPE = {
 //Commands
 
 PEModLib.Commands = {
-		addCommand:function(command, funct){
+		registerCommand:function(command, funct){
 			if(typeof command !== 'undefined' && typeof funct !== 'undefined' && cmds_cmds.length == cmds_funct.length){
 				command = command.toLowerCase();
 				cmds_cmds[cmds_cmds.length] = command;
@@ -163,7 +165,6 @@ PEModLib.Commands = {
 
 //Register API
 function selectLevelHook(){
-	var msg = "§7Unknown Command."; //Initialize default Unknown Command message
 	var scripts = net.zhuoweizhang.mcpelauncher.ScriptManager.scripts;
 	var javascript = org.mozilla.javascript.ScriptableObject;
 	for(var i = 0; i < scripts.size(); i++) {
@@ -218,10 +219,11 @@ function chatHook(text){
 
 function procCmd(cmd){
 	cmd = cmd.toLowerCase();
+	cmdx = cmd.split(" ");
 	var unknown = 1;
 	if(cmds_cmds.length == cmds_funct.length){
 		for(var i = 0; i < cmds_cmds.length; i++){
-			if(cmds_cmds[i] == cmd){
+			if(cmds_cmds[i] == cmdx[0]){
 				call(cmds_funct[i], cmd);
 				var unknown = 0;
 			}
